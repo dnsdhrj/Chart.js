@@ -39,7 +39,16 @@ module.exports = function(Chart) {
 			defaults.global,
 			defaults[config.type],
 			config.options || {});
-
+		
+		/* If config.options has scales options(except 'category') but no offset options,
+		 * offset defaults to scale default(false).
+		 * This is because in merging defaults['bar'] and config.options(eg. 'time'),
+		 * It merges scale default(false), and overrides controller defaults
+		 * This is expected behavior, but the problem is 'bar' type has more precedence.
+		 * solution 1: manually add 'offsets:true' to 'config.options' if type is 'bar'
+		 * solution 2: manually change defaults['bar'] type from 'category' to 'time'
+		 */
+		
 		return config;
 	}
 
